@@ -8,12 +8,10 @@
 
 body {
   font-family: 'Inter', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
-  background: radial-gradient(circle at top left, rgba(94, 120, 255, 0.18), transparent 45%),
-    radial-gradient(circle at bottom right, rgba(110, 231, 255, 0.18), transparent 45%),
-    linear-gradient(135deg, #0f172a 0%, #111827 60%, #0b1120 100%);
+  background: #f6f1e6;
   min-height: 100vh;
   padding: 24px;
-  color: #e5e7eb;
+  color: #111111;
 }
 
 .app-container {
@@ -23,7 +21,7 @@ body {
 
 .app-header {
   text-align: center;
-  color: #e2e8f0;
+  color: #111111;
   margin-bottom: 36px;
   animation: slideDown 0.6s ease-out;
 }
@@ -37,7 +35,7 @@ body {
 
 .app-header p {
   font-size: 1.05em;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .app-nav {
@@ -51,35 +49,33 @@ body {
 .nav-button {
   padding: 12px 26px;
   font-size: 0.95em;
-  border: 1px solid rgba(148, 163, 184, 0.2);
+  border: 1px solid rgba(17, 17, 17, 0.15);
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.45);
-  color: #e2e8f0;
+  background: #f6f1e6;
+  color: #111111;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
   letter-spacing: 0.3px;
-  backdrop-filter: blur(12px);
 }
 
 .nav-button:hover {
-  background: rgba(148, 163, 184, 0.2);
+  background: #b7e4c7;
   transform: translateY(-1px);
 }
 
 .nav-button.active {
-  background: rgba(99, 102, 241, 0.28);
-  color: #f8fafc;
-  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
+  background: #b7e4c7;
+  color: #111111;
+  box-shadow: 0 6px 18px rgba(17, 17, 17, 0.12);
 }
 
 .app-main {
-  background: rgba(15, 23, 42, 0.55);
+  background: #ffffff;
   border-radius: 20px;
   padding: 36px;
-  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.5);
-  border: 1px solid rgba(148, 163, 184, 0.15);
-  backdrop-filter: blur(18px);
+  box-shadow: 0 12px 32px rgba(17, 17, 17, 0.12);
+  border: 1px solid rgba(17, 17, 17, 0.08);
   animation: slideUp 0.6s ease-out;
 }
 

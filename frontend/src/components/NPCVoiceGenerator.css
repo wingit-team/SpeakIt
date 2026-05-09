@@ -3,13 +3,13 @@
 }
 
 .npc-generator h2 {
-  color: #e2e8f0;
+  color: #111111;
   margin-bottom: 10px;
   font-size: 1.8em;
 }
 
 .subtitle {
-  color: #94a3b8;
+  color: #333333;
   margin-bottom: 30px;
   font-size: 1.05em;
 }
@@ -28,58 +28,58 @@
 
 .form-group label {
   font-weight: 600;
-  color: #e2e8f0;
+  color: #111111;
   font-size: 0.95em;
 }
 
 .form-group textarea,
 .form-group input[type="text"] {
   padding: 12px;
-  border: 1px solid rgba(148, 163, 184, 0.25);
+  border: 1px solid rgba(17, 17, 17, 0.2);
   border-radius: 10px;
   font-family: inherit;
   font-size: 1em;
   transition: all 0.3s ease;
-  background: rgba(15, 23, 42, 0.4);
-  color: #e2e8f0;
+  background: #ffffff;
+  color: #111111;
 }
 
 .form-group textarea:focus,
 .form-group input[type="text"]:focus {
   outline: none;
-  border-color: rgba(129, 140, 248, 0.9);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  border-color: #111111;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.12);
 }
 
 .form-group textarea:disabled,
 .form-group input:disabled {
-  background: rgba(15, 23, 42, 0.2);
+  background: rgba(17, 17, 17, 0.05);
   cursor: not-allowed;
 }
 
 .form-group small {
-  color: #94a3b8;
+  color: #333333;
   font-size: 0.85em;
 }
 
 .npc-id {
-  color: #a5b4fc;
+  color: #111111;
   margin-bottom: 10px;
 }
 
 .error-message {
-  background: rgba(248, 113, 113, 0.15);
-  color: #fecaca;
+  background: rgba(220, 38, 38, 0.1);
+  color: #991b1b;
   padding: 12px;
   border-radius: 10px;
-  border-left: 4px solid #f87171;
+  border-left: 4px solid #991b1b;
   font-size: 0.95em;
 }
 
 .submit-button {
   padding: 14px 30px;
-  background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
-  color: white;
+  background: #b7e4c7;
+  color: #111111;
   border: none;
   border-radius: 999px;
   font-size: 1em;
@@ -93,7 +93,7 @@
 
 .submit-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 6px 20px rgba(17, 17, 17, 0.2);
 }
 
 .submit-button:disabled {
@@ -104,13 +104,13 @@
 .audio-output {
   margin-top: 30px;
   padding: 20px;
-  background: rgba(15, 23, 42, 0.4);
+  background: #f6f1e6;
   border-radius: 14px;
-  border-left: 4px solid rgba(99, 102, 241, 0.8);
+  border-left: 4px solid #b7e4c7;
 }
 
 .audio-output h3 {
-  color: #e2e8f0;
+  color: #111111;
   margin-bottom: 15px;
   font-size: 1.2em;
 }
@@ -124,19 +124,19 @@
 .download-button {
   display: inline-block;
   padding: 10px 20px;
-  background: rgba(99, 102, 241, 0.25);
-  color: #e2e8f0;
+  background: #ffffff;
+  color: #111111;
   text-decoration: none;
   border-radius: 999px;
   transition: all 0.3s ease;
   font-weight: 600;
-  border: 1px solid rgba(99, 102, 241, 0.5);
+  border: 1px solid rgba(17, 17, 17, 0.2);
 }
 
 .download-button:hover {
-  background: rgba(99, 102, 241, 0.4);
+  background: #b7e4c7;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 12px rgba(17, 17, 17, 0.2);
 }
 
 @keyframes fadeIn {
