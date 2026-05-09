@@ -8,6 +8,9 @@ import os
 import torch
 import torchaudio
 import numpy as np
+import subprocess
+import tempfile
+import soundfile as sf
 from pathlib import Path
 from typing import Optional, Tuple
 
@@ -23,28 +26,31 @@ class GPTSoVITSReplicator:
     def __init__(self, device: Optional[str] = None):
         """
         Initialize the Voice Replicator.
-        
+
         Args:
-            device: Device to run inference on ('cuda' or 'cpu'). 
+            device: Device to run inference on ('cuda' or 'cpu').
                     If None, automatically selects CUDA if available, else CPU.
         """
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         self.model = None
         self.initialized = False
+        self.gpt_sovits_root = Path(os.getenv("GPT_SOVITS_ROOT", "GPT-SoVITS"))
+        self.gpt_path = os.getenv("GPT_SOVITS_GPT_PATH")
+        self.sovits_path = os.getenv("GPT_SOVITS_SOVITS_PATH")
+        self.ref_lang = os.getenv("GPT_SOVITS_REF_LANG", "en")
+        self.tgt_lang = os.getenv("GPT_SOVITS_TGT_LANG", "en")
         self._init_model()
     
     def _init_model(self):
         """
         Initialize the GPT-SoVITS model.
-        For now, this is a placeholder for the actual model loading logic.
-        In production, this would load from the GPT-SoVITS submodule.
+        Uses the GPT-SoVITS CLI entrypoint when model paths are configured.
         """
         try:
-            # Placeholder for GPT-SoVITS model initialization
-            # In production, this would import and initialize the actual model from the submodule
-            print(f"[GPTSoVITS] Initializing model on device: {self.device}")
-            # self.model = load_gpt_sovits_model(device=self.device)
-            self.initialized = True
+            if self.gpt_sovits_root.exists():
+                self.initialized = True
+                return
+            raise FileNotFoundError("GPT-SoVITS submodule not found.")
         except Exception as e:
             print(f"[GPTSoVITS] Model initialization warning: {e}")
             # Model will be loaded on first use or fail gracefully
@@ -74,6 +80,65 @@ class GPTSoVITSReplicator:
         
         return audio, sr
     
+    def _run_cli_inference(
+        self,
+        target_text: str,
+        reference_audio_path: str,
+        reference_text: str
+    ) -> np.ndarray:
+        if not self.gpt_path or not self.sovits_path:
+            raise RuntimeError(
+                "GPT-SoVITS model paths are not configured. Set GPT_SOVITS_GPT_PATH and "
+                "GPT_SOVITS_SOVITS_PATH environment variables."
+            )
+
+        if not Path(self.gpt_path).exists() or not Path(self.sovits_path).exists():
+            raise FileNotFoundError("GPT-SoVITS model files not found at configured paths.")
+
+        cli_path = self.gpt_sovits_root / "inference_cli.py"
+        if not cli_path.exists():
+            raise FileNotFoundError(f"GPT-SoVITS CLI not found at {cli_path}")
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            output_path = Path(temp_dir) / "synth.wav"
+
+            cmd = [
+                sys.executable,
+                str(cli_path),
+                "--gpt_path",
+                self.gpt_path,
+                "--sovits_path",
+                self.sovits_path,
+                "--ref_audio_path",
+                reference_audio_path,
+                "--ref_text",
+                reference_text,
+                "--text",
+                target_text,
+                "--text_lang",
+                self.tgt_lang,
+                "--prompt_lang",
+                self.ref_lang,
+                "--output_path",
+                str(output_path)
+            ]
+
+            result = subprocess.run(cmd, capture_output=True, text=True)
+            if result.returncode != 0:
+                raise RuntimeError(
+                    f"GPT-SoVITS inference failed: {result.stderr.strip() or result.stdout.strip()}"
+                )
+
+            audio, _ = sf.read(output_path)
+            if audio.ndim > 1:
+                audio = audio.mean(axis=1)
+
+            max_val = np.max(np.abs(audio))
+            if max_val > 0:
+                audio = audio / max_val
+
+            return np.clip(audio * 32767, -32768, 32767).astype(np.int16)
+
     def synthesize(
         self,
         target_text: str,
@@ -111,34 +176,14 @@ class GPTSoVITSReplicator:
             raise ValueError("Reference text cannot be empty")
         
         try:
-            # Load reference audio
-            ref_audio, ref_sr = self._load_audio(reference_audio_path)
-            
-            # Convert to numpy for processing
-            ref_audio_np = ref_audio.squeeze().cpu().numpy()
-            
-            # Placeholder: Extract semantic tokens from reference audio and text
-            # In production, this would use the actual GPT-SoVITS semantic token extractor
-            print(f"[GPTSoVITS] Processing reference: {len(reference_text)} chars, audio: {ref_audio_np.shape}")
-            
-            # Placeholder: Generate semantic tokens for target text
-            # In production, this would use the GPT model from GPT-SoVITS
-            target_tokens = np.random.randn(100, 1024).astype(np.float32)  # Placeholder
-            
-            # Placeholder: Convert tokens to audio via vocoder
-            # In production, this would use the VITS vocoder from GPT-SoVITS
-            synthesized_audio = np.random.randn(24000 * 5).astype(np.float32)  # Placeholder
-            
-            # Normalize audio to [-1, 1] range
-            max_val = np.max(np.abs(synthesized_audio))
-            if max_val > 0:
-                synthesized_audio = synthesized_audio / max_val
-            
-            # Convert to Linear16 PCM (int16)
-            audio_int16 = np.clip(synthesized_audio * 32767, -32768, 32767).astype(np.int16)
-            
-            return audio_int16
-        
+            if self.gpt_path and self.sovits_path:
+                return self._run_cli_inference(target_text, reference_audio_path, reference_text)
+
+            raise RuntimeError(
+                "GPT-SoVITS inference requires model paths. Configure GPT_SOVITS_GPT_PATH and "
+                "GPT_SOVITS_SOVITS_PATH environment variables."
+            )
+
         except Exception as e:
             raise RuntimeError(f"Voice synthesis failed: {str(e)}")
     

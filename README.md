@@ -1,7 +1,7 @@
 # SpeakIt
 
 Headless Text-to-Speech microservice with two modes:
-- Voice cloning via GPT-SoVITS (submodule placeholder wiring).
+- Voice cloning via GPT-SoVITS submodule.
 - Procedural NPC voices via XTTS v2 with SQLite-backed speaker latents.
 
 ## Backend (FastAPI)
@@ -61,7 +61,27 @@ Set the backend URL for production builds:
 VITE_BACKEND_URL=https://your-hf-space-url
 ```
 
-## Notes
-- GPT-SoVITS and XTTS logic is wired as placeholders and intended to be replaced with real model calls.
-- SQLite database `npc_voices.db` is created at runtime (ignored by git).
+## Configuration
 
+Set these environment variables when running the backend:
+
+- `GPT_SOVITS_ROOT`: Path to the GPT-SoVITS submodule (default `GPT-SoVITS`).
+- `GPT_SOVITS_GPT_PATH`: Path to the GPT model checkpoint.
+- `GPT_SOVITS_SOVITS_PATH`: Path to the SoVITS model checkpoint.
+- `GPT_SOVITS_REF_LANG`: Reference text language (default `en`).
+- `GPT_SOVITS_TGT_LANG`: Target text language (default `en`).
+- `XTTS_LANGUAGE`: Language code for XTTS (default `en`).
+
+Example:
+```bash
+export GPT_SOVITS_GPT_PATH=/models/gpt.ckpt
+export GPT_SOVITS_SOVITS_PATH=/models/sovits.pth
+export GPT_SOVITS_REF_LANG=en
+export GPT_SOVITS_TGT_LANG=en
+export XTTS_LANGUAGE=en
+```
+
+## Notes
+- GPT-SoVITS inference uses the submodule CLI and requires model checkpoints via env vars.
+- XTTS v2 uses procedural latents generated at runtime and stored in SQLite.
+- SQLite database `npc_voices.db` is created at runtime (ignored by git).

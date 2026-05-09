@@ -5,11 +5,13 @@ Handles NPC voice generation with SQLite-based latent tensor persistence.
 
 import sqlite3
 import json
+import os
 import torch
 import numpy as np
 from pathlib import Path
 from typing import Optional, Dict, Any
 from datetime import datetime
+from TTS.api import TTS
 
 
 class XTTSGenerator:
@@ -33,6 +35,8 @@ class XTTSGenerator:
         self.db_path = db_path
         self.model = None
         self.initialized = False
+        self.language = os.getenv("XTTS_LANGUAGE", "en")
+        self.sample_rate = 24000
         self._init_db()
         self._init_model()
     
@@ -62,14 +66,11 @@ class XTTSGenerator:
     def _init_model(self):
         """
         Initialize the XTTS v2 model.
-        For now, this is a placeholder for the actual model loading logic.
-        In production, this would load from the TTS library.
         """
         try:
-            # Placeholder for XTTS v2 model initialization
-            # In production, this would use: from TTS.models import load_model
-            # self.model = load_model("tts_models/multilingual/multi-dataset/xtts_v2").to(self.device)
-            print(f"[XTTS] Initializing model on device: {self.device}")
+            self.model = TTS("tts_models/multilingual/multi-dataset/xtts_v2").to(self.device)
+            if hasattr(self.model, "synthesizer") and self.model.synthesizer:
+                self.sample_rate = getattr(self.model.synthesizer, "output_sample_rate", 24000)
             self.initialized = True
         except Exception as e:
             print(f"[XTTS] Model initialization warning: {e}")
@@ -77,35 +78,35 @@ class XTTSGenerator:
     def _generate_speaker_latent(self, seed: Optional[int] = None) -> Dict[str, Any]:
         """
         Generate a unique speaker latent (conditioning tensor/embedding).
-        
-        Args:
-            seed: Optional seed for reproducibility. If None, random latent is generated.
-        
-        Returns:
-            Dictionary containing serialized latent tensor
         """
+        if not self.initialized or self.model is None:
+            raise RuntimeError("XTTS model not initialized")
+
         if seed is not None:
+            torch.manual_seed(seed)
             np.random.seed(seed)
-        
-        # Generate random latent vector (placeholder)
-        # In production, this would be extracted from reference audio or procedurally generated
-        latent = np.random.randn(512, 768).astype(np.float32)  # Placeholder dimensions
-        
+
+        duration_seconds = 3.0
+        num_samples = int(self.sample_rate * duration_seconds)
+        noise_audio = torch.randn(1, num_samples)
+
+        try:
+            xtts_model = self.model.synthesizer.tts_model
+            gpt_cond_latent, speaker_embedding = xtts_model.get_conditioning_latents(
+                noise_audio,
+                self.sample_rate
+            )
+        except Exception as e:
+            raise RuntimeError(f"XTTS conditioning latent generation failed: {e}")
+
         return {
-            "shape": list(latent.shape),
-            "data": latent.tolist(),
-            "dtype": "float32"
+            "gpt_cond_latent": self._serialize_latent(gpt_cond_latent.squeeze(0).cpu().numpy()),
+            "speaker_embedding": self._serialize_latent(speaker_embedding.squeeze(0).cpu().numpy())
         }
     
     def _serialize_latent(self, latent: np.ndarray) -> str:
         """
         Serialize a latent tensor to JSON string.
-        
-        Args:
-            latent: Numpy array representing the latent tensor
-        
-        Returns:
-            JSON string representation of the latent
         """
         return json.dumps({
             "shape": list(latent.shape),
@@ -116,12 +117,6 @@ class XTTSGenerator:
     def _deserialize_latent(self, latent_json: str) -> np.ndarray:
         """
         Deserialize a JSON string to latent tensor.
-        
-        Args:
-            latent_json: JSON string representation of the latent
-        
-        Returns:
-            Numpy array representing the latent tensor
         """
         data = json.loads(latent_json)
         latent = np.array(data["data"], dtype=np.float32)
@@ -222,29 +217,35 @@ class XTTSGenerator:
             
             # Retrieve and deserialize latent
             latent_json = result[0]
-            latent = self._deserialize_latent(latent_json)
-            
+            latent_payload = json.loads(latent_json)
+            gpt_cond_latent = torch.tensor(
+                self._deserialize_latent(latent_payload["gpt_cond_latent"])
+            ).unsqueeze(0).to(self.device)
+            speaker_embedding = torch.tensor(
+                self._deserialize_latent(latent_payload["speaker_embedding"])
+            ).unsqueeze(0).to(self.device)
+
             conn.close()
-            
-            # Placeholder: Generate audio using XTTS v2 with the latent
-            # In production, this would use: self.model.synthesize(text, latent)
-            print(f"[XTTS] Synthesizing for NPC {npc_id}: {len(text)} chars")
-            
-            # Generate placeholder audio (5 seconds at 24kHz)
-            sample_rate = 24000
-            duration = (len(text) / 100) * 1.5  # Rough estimate: ~100 chars per 1.5 seconds
-            num_samples = int(sample_rate * duration)
-            
-            synthesized_audio = np.random.randn(num_samples).astype(np.float32) * 0.1
-            
-            # Normalize audio to [-1, 1] range
-            max_val = np.max(np.abs(synthesized_audio))
+
+            xtts_model = self.model.synthesizer.tts_model
+            inference_result = xtts_model.inference(
+                text,
+                self.language,
+                speaker_embedding,
+                gpt_cond_latent
+            )
+
+            audio = inference_result["wav"] if isinstance(inference_result, dict) else inference_result
+            audio = audio.detach().cpu().numpy()
+
+            if audio.ndim > 1:
+                audio = audio.squeeze()
+
+            max_val = np.max(np.abs(audio))
             if max_val > 0:
-                synthesized_audio = synthesized_audio / max_val
-            
-            # Convert to Linear16 PCM (int16)
-            audio_int16 = np.clip(synthesized_audio * 32767, -32768, 32767).astype(np.int16)
-            
+                audio = audio / max_val
+
+            audio_int16 = np.clip(audio * 32767, -32768, 32767).astype(np.int16)
             return audio_int16
         
         except Exception as e:
