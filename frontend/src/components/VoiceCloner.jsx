@@ -90,7 +90,7 @@ function VoiceCloner() {
 
   return (
     <div className="voice-cloner">
-      <h2>🎤 Voice Cloner</h2>
+      <h2>Voice Cloner</h2>
       <p className="subtitle">Clone a voice from reference audio to synthesize new text</p>
 
       <form onSubmit={handleSubmit} className="cloner-form">
@@ -199,7 +199,7 @@ function VoiceCloner() {
 
       {audioUrl && (
         <div className="audio-output">
-          <h3>✅ Synthesized Audio</h3>
+          <h3>Synthesized Audio</h3>
           <audio controls>
             <source src={audioUrl} type="audio/wav" />
             Your browser does not support the audio element.
@@ -214,4 +214,3 @@ function VoiceCloner() {
 }
 
 export default VoiceCloner
-

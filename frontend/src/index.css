@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -5,10 +7,13 @@
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: 'Inter', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  background: radial-gradient(circle at top left, rgba(94, 120, 255, 0.18), transparent 45%),
+    radial-gradient(circle at bottom right, rgba(110, 231, 255, 0.18), transparent 45%),
+    linear-gradient(135deg, #0f172a 0%, #111827 60%, #0b1120 100%);
   min-height: 100vh;
-  padding: 20px;
+  padding: 24px;
+  color: #e5e7eb;
 }
 
 .app-container {
@@ -18,60 +23,63 @@ body {
 
 .app-header {
   text-align: center;
-  color: white;
-  margin-bottom: 40px;
+  color: #e2e8f0;
+  margin-bottom: 36px;
   animation: slideDown 0.6s ease-out;
 }
 
 .app-header h1 {
-  font-size: 3em;
+  font-size: 2.6em;
   margin-bottom: 10px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  letter-spacing: -0.02em;
+  font-weight: 600;
 }
 
 .app-header p {
-  font-size: 1.1em;
-  opacity: 0.9;
+  font-size: 1.05em;
+  opacity: 0.85;
 }
 
 .app-nav {
   display: flex;
   gap: 10px;
-  margin-bottom: 30px;
+  margin-bottom: 26px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .nav-button {
-  padding: 12px 30px;
-  font-size: 1em;
-  border: none;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
+  padding: 12px 26px;
+  font-size: 0.95em;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.45);
+  color: #e2e8f0;
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.3px;
+  backdrop-filter: blur(12px);
 }
 
 .nav-button:hover {
-  background: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  background: rgba(148, 163, 184, 0.2);
+  transform: translateY(-1px);
 }
 
 .nav-button.active {
-  background: white;
-  color: #667eea;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: rgba(99, 102, 241, 0.28);
+  color: #f8fafc;
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
 }
 
 .app-main {
-  background: white;
-  border-radius: 12px;
-  padding: 40px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  background: rgba(15, 23, 42, 0.55);
+  border-radius: 20px;
+  padding: 36px;
+  box-shadow: 0 18px 60px rgba(15, 23, 42, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  backdrop-filter: blur(18px);
   animation: slideUp 0.6s ease-out;
 }
 
@@ -114,4 +122,3 @@ body {
     width: 100%;
   }
 }
-

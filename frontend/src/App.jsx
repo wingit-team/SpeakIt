@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="app-container">
       <header className="app-header">
-        <h1>🎙️ SpeakIt</h1>
+        <h1>SpeakIt</h1>
         <p>Headless TTS Microservice - Voice Cloning & NPC Voice Generation</p>
       </header>
 
@@ -37,4 +37,3 @@ function App() {
 }
 
 export default App
-

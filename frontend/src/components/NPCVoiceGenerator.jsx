@@ -50,7 +50,7 @@ function NPCVoiceGenerator() {
 
   return (
     <div className="npc-generator">
-      <h2>🧠 NPC Voice Generator</h2>
+      <h2>NPC Voice Generator</h2>
       <p className="subtitle">Generate procedural NPC voices with persistent latents</p>
 
       <form onSubmit={handleSubmit} className="npc-form">
@@ -88,7 +88,7 @@ function NPCVoiceGenerator() {
 
       {audioUrl && (
         <div className="audio-output">
-          <h3>✅ Generated Audio</h3>
+          <h3>Generated Audio</h3>
           {resolvedNpcId && (
             <p className="npc-id">NPC ID: <strong>{resolvedNpcId}</strong></p>
           )}
@@ -106,4 +106,3 @@ function NPCVoiceGenerator() {
 }
 
 export default NPCVoiceGenerator
-
