@@ -1,4 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --cream: #f6efe3;
+  --dark: #141414;
+  --green: #6ac77a;
+  --green-strong: #48b85d;
+  --border: rgba(20, 20, 20, 0.18);
+  --shadow: rgba(20, 20, 20, 0.15);
+}
 
 * {
   margin: 0;
@@ -8,10 +18,10 @@
 
 body {
   font-family: 'Inter', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
-  background: #f6f1e6;
+  background: var(--cream);
   min-height: 100vh;
   padding: 24px;
-  color: #111111;
+  color: var(--dark);
 }
 
 .app-container {
@@ -21,15 +31,16 @@ body {
 
 .app-header {
   text-align: center;
-  color: #111111;
+  color: var(--dark);
   margin-bottom: 36px;
   animation: slideDown 0.6s ease-out;
 }
 
 .app-header h1 {
-  font-size: 2.6em;
+  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-size: 2.8em;
   margin-bottom: 10px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   font-weight: 600;
 }
 
@@ -49,10 +60,10 @@ body {
 .nav-button {
   padding: 12px 26px;
   font-size: 0.95em;
-  border: 1px solid rgba(17, 17, 17, 0.15);
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: #f6f1e6;
-  color: #111111;
+  background: var(--cream);
+  color: var(--dark);
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 600;
@@ -60,22 +71,22 @@ body {
 }
 
 .nav-button:hover {
-  background: #b7e4c7;
+  background: var(--green);
   transform: translateY(-1px);
 }
 
 .nav-button.active {
-  background: #b7e4c7;
-  color: #111111;
-  box-shadow: 0 6px 18px rgba(17, 17, 17, 0.12);
+  background: var(--green);
+  color: var(--dark);
+  box-shadow: 0 6px 18px var(--shadow);
 }
 
 .app-main {
   background: #ffffff;
   border-radius: 20px;
   padding: 36px;
-  box-shadow: 0 12px 32px rgba(17, 17, 17, 0.12);
-  border: 1px solid rgba(17, 17, 17, 0.08);
+  box-shadow: 0 12px 32px var(--shadow);
+  border: 1px solid var(--border);
   animation: slideUp 0.6s ease-out;
 }
 
