@@ -1,13 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 :root {
-  --cream: #f6efe3;
-  --dark: #141414;
-  --green: #6ac77a;
-  --green-strong: #48b85d;
-  --border: rgba(20, 20, 20, 0.18);
-  --shadow: rgba(20, 20, 20, 0.15);
+  --cream: #f7f1e7;
+  --dark: #1b1b1b;
+  --muted: #5b5b5b;
+  --green: #5fbf77;
+  --green-strong: #4aa964;
+  --border: #e5dfd3;
+  --card: #ffffff;
+  --shadow: rgba(27, 27, 27, 0.08);
 }
 
 * {
@@ -17,11 +19,12 @@
 }
 
 body {
-  font-family: 'Inter', 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'Söhne', 'Soehne', 'Söhne Test', 'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   background: var(--cream);
   min-height: 100vh;
   padding: 24px;
   color: var(--dark);
+  font-feature-settings: "liga" 1;
 }
 
 .app-container {
@@ -32,21 +35,21 @@ body {
 .app-header {
   text-align: center;
   color: var(--dark);
-  margin-bottom: 36px;
+  margin-bottom: 28px;
   animation: slideDown 0.6s ease-out;
 }
 
 .app-header h1 {
-  font-family: 'Playfair Display', 'Times New Roman', serif;
-  font-size: 2.8em;
-  margin-bottom: 10px;
-  letter-spacing: -0.01em;
+  font-family: 'Söhne', 'Soehne', 'Söhne Test', 'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 2.6em;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
   font-weight: 600;
 }
 
 .app-header p {
-  font-size: 1.05em;
-  opacity: 0.8;
+  font-size: 1em;
+  color: var(--muted);
 }
 
 .app-nav {
@@ -58,34 +61,35 @@ body {
 }
 
 .nav-button {
-  padding: 12px 26px;
+  padding: 10px 22px;
   font-size: 0.95em;
   border: 1px solid var(--border);
   border-radius: 999px;
-  background: var(--cream);
+  background: var(--card);
   color: var(--dark);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   font-weight: 600;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.2px;
 }
 
 .nav-button:hover {
-  background: var(--green);
+  background: #f1efe9;
   transform: translateY(-1px);
 }
 
 .nav-button.active {
-  background: var(--green);
+  background: #e6f3ea;
   color: var(--dark);
-  box-shadow: 0 6px 18px var(--shadow);
+  border-color: rgba(95, 191, 119, 0.5);
+  box-shadow: 0 4px 12px var(--shadow);
 }
 
 .app-main {
-  background: #ffffff;
-  border-radius: 20px;
-  padding: 36px;
-  box-shadow: 0 12px 32px var(--shadow);
+  background: var(--card);
+  border-radius: 18px;
+  padding: 34px;
+  box-shadow: 0 12px 28px var(--shadow);
   border: 1px solid var(--border);
   animation: slideUp 0.6s ease-out;
 }

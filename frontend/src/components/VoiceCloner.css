@@ -3,16 +3,17 @@
 }
 
 .voice-cloner h2 {
-  font-family: 'Playfair Display', 'Times New Roman', serif;
+  font-family: 'Söhne', 'Soehne', 'Söhne Test', 'Space Grotesk', 'Inter', 'Helvetica Neue', Arial, sans-serif;
   color: var(--dark);
-  margin-bottom: 10px;
-  font-size: 1.8em;
+  margin-bottom: 6px;
+  font-size: 1.75em;
+  letter-spacing: -0.01em;
 }
 
 .subtitle {
-  color: rgba(20, 20, 20, 0.75);
-  margin-bottom: 30px;
-  font-size: 1.05em;
+  color: var(--muted);
+  margin-bottom: 22px;
+  font-size: 1em;
 }
 
 .cloner-form {
@@ -36,18 +37,18 @@
 .form-group label {
   font-weight: 600;
   color: var(--dark);
-  font-size: 0.95em;
+  font-size: 0.9em;
 }
 
 .form-group textarea,
 .form-group input[type="text"],
 .form-group input[type="file"] {
-  padding: 12px;
+  padding: 12px 14px;
   border: 1px solid var(--border);
-  border-radius: 10px;
+  border-radius: 12px;
   font-family: inherit;
-  font-size: 1em;
-  transition: all 0.3s ease;
+  font-size: 0.98em;
+  transition: all 0.2s ease;
   background: #ffffff;
   color: var(--dark);
 }
@@ -56,8 +57,8 @@
 .form-group input[type="text"]:focus,
 .form-group input[type="file"]:focus {
   outline: none;
-  border-color: var(--dark);
-  box-shadow: 0 0 0 3px rgba(20, 20, 20, 0.12);
+  border-color: rgba(95, 191, 119, 0.6);
+  box-shadow: 0 0 0 3px rgba(95, 191, 119, 0.18);
 }
 
 .form-group textarea:disabled,
@@ -70,7 +71,7 @@
   width: 100%;
   height: 6px;
   border-radius: 3px;
-  background: rgba(20, 20, 20, 0.2);
+  background: rgba(27, 27, 27, 0.15);
   outline: none;
   -webkit-appearance: none;
   appearance: none;
@@ -98,8 +99,8 @@
 }
 
 .form-group small {
-  color: rgba(20, 20, 20, 0.7);
-  font-size: 0.85em;
+  color: var(--muted);
+  font-size: 0.8em;
 }
 
 .file-name {
@@ -109,32 +110,33 @@
 }
 
 .error-message {
-  background: rgba(220, 38, 38, 0.1);
-  color: #991b1b;
+  background: rgba(220, 38, 38, 0.08);
+  color: #8b1f1f;
   padding: 12px;
-  border-radius: 10px;
-  border-left: 4px solid #991b1b;
-  font-size: 0.95em;
+  border-radius: 12px;
+  border-left: 4px solid #8b1f1f;
+  font-size: 0.9em;
 }
 
 .submit-button {
-  padding: 14px 30px;
+  padding: 12px 26px;
   background: var(--green);
   color: var(--dark);
   border: none;
   border-radius: 999px;
-  font-size: 1em;
+  font-size: 0.95em;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: 10px;
+  letter-spacing: 0.4px;
+  margin-top: 4px;
 }
 
 .submit-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(20, 20, 20, 0.2);
+  transform: translateY(-1px);
+  background: var(--green-strong);
+  box-shadow: 0 6px 18px rgba(27, 27, 27, 0.18);
 }
 
 .submit-button:disabled {
@@ -143,17 +145,18 @@
 }
 
 .audio-output {
-  margin-top: 30px;
-  padding: 20px;
-  background: var(--cream);
+  margin-top: 26px;
+  padding: 18px;
+  background: #fdfbf7;
   border-radius: 14px;
+  border: 1px solid var(--border);
   border-left: 4px solid var(--green);
 }
 
 .audio-output h3 {
   color: var(--dark);
-  margin-bottom: 15px;
-  font-size: 1.2em;
+  margin-bottom: 12px;
+  font-size: 1.1em;
 }
 
 .audio-output audio {
@@ -164,20 +167,20 @@
 
 .download-button {
   display: inline-block;
-  padding: 10px 20px;
+  padding: 8px 18px;
   background: #ffffff;
   color: var(--dark);
   text-decoration: none;
   border-radius: 999px;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   font-weight: 600;
   border: 1px solid var(--border);
 }
 
 .download-button:hover {
-  background: var(--green);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(20, 20, 20, 0.2);
+  background: #e6f3ea;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(27, 27, 27, 0.18);
 }
 
 @keyframes fadeIn {
