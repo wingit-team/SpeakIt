@@ -216,3 +216,32 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific ignores
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+
+# Local databases
+npc_voices.db
+
+# Audio artifacts
+*.wav
+*.mp3
+*.ogg
+*.flac
+
+# Temporary files
+.DS_Store
+Thumbs.db
+tmp/
+temp/
+*.tmp
+
+# Frontend build artifacts
+node_modules/
+.next/
+frontend/dist/
